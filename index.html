@@ -1,0 +1,498 @@
+<!-- saved from url=(0029)https://dreamtuner-diffusion.github.io/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <title>DreamTuner</title>
+  <link href="./images/style.css" rel="stylesheet">
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+  <script type="text/javascript" src="./images/jquery.mlens-1.0.min.js"></script> 
+  <script type="text/javascript" src="./images/jquery.js"></script>
+  <style type="text/css">/* Copyright 2014-present Evernote Corporation. All rights reserved. */
+  @keyframes caretBlink {
+      from { opacity: 1.0; }
+      to { opacity: 0.0; }
+  }
+  
+  @keyframes rotateSpinner {
+      from {
+          transform:rotate(0deg);
+      }
+      to {
+          transform:rotate(360deg);
+      }
+  }
+  
+  #text-tool-caret {
+      animation-name: caretBlink;  
+      animation-iteration-count: infinite;  
+      animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+      animation-duration: 1s; 
+  }
+  
+  #en-markup-loading-spinner {
+      position: absolute;
+      top: calc(50% - 16px);
+      left: calc(50% - 16px);
+      width: 32px;
+      height: 32px;
+  }
+  
+  #en-markup-loading-spinner img {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      animation-name: rotateSpinner;
+      animation-duration: 0.6s;
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+  }
+  </style><style type="text/css">/* Copyright 2014-present Evernote Corporation. All rights reserved. */
+  .skitchToastBoxContainer {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 30px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      pointer-events: none;
+  }
+  
+  .skitchToastBox {
+      width: 200px;
+      height: 16px;
+      padding: 12px;
+      background-color: rgba(47, 55, 61, 0.95);
+      border-radius: 4px;
+      color: white;
+      cursor: default;
+      font-size: 10pt;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.32);
+      font-family: 'Soleil', Helvetica, Arial, sans-serif;
+      border: 2px rgba(255, 255, 255, 0.38) solid;
+  }
+  
+  .lang-zh-cn .skitchToastBox {
+      font-family: '微软雅黑', 'Microsoft YaHei', SimSun,
+          '&#x30E1;&#x30A4;&#x30EA;&#x30AA;', Meiryo, 'MS PGothic', 'Soleil',
+          Helvetica, Arial, sans-serif;
+  }
+  
+  .lang-ja-jp .skitchToastBox {
+      font-family: '&#x30E1;&#x30A4;&#x30EA;&#x30AA;', Meiryo, 'MS PGothic',
+          '微软雅黑', 'Microsoft YaHei', SimSun, 'Soleil', Helvetica, Arial,
+          sans-serif;
+  }
+  
+  .skitchToast {
+      padding-left: 20px;
+      padding-right: 20px;
+      display: inline-block;
+      height: 10px;
+      color: #f1f5f8;
+      text-align: center;
+  }
+  
+  .skitchVisible {
+      /* Don't remove this class it's a hack used by the Evernote Clipper */
+  }
+  </style><style type="text/css">/* Copyright 2014-present Evernote Corporation. All rights reserved. */
+  
+  @font-face {
+    font-family: 'Soleil';
+    font-weight: normal;
+    font-style: normal;
+  }
+  </style><style type="text/css">/* Copyright 2019-present Evernote Corporation. All rights reserved. */
+  
+  #en-markup-disabled {
+      position: fixed;
+      z-index: 9999;
+      width: 100%;
+      height: 100%;
+      top: 0px;
+      left: 0px;
+      cursor: default;
+      -webkit-user-select: none;
+  }
+  
+  #en-markup-alert-container {
+      position: absolute;
+      z-index: 9999;
+      width: 450px;
+      left: calc(50% - 225px);
+      top: calc(50% - 85px);
+      background-color: white;
+      box-shadow: 0 2px 7px 1px rgba(0,0,0,0.35);
+      -webkit-user-select: none;
+  }
+  
+  #en-markup-alert-container .cell-1 {
+      position: relative;
+      height: 110px;
+      width: 105px;
+      float: left;
+      text-align: center;
+      background-position: 65% 50%;
+      background-repeat: no-repeat;
+  }
+  
+  #en-markup-alert-container .cell-2 {
+      position: relative;
+      float: left;
+      width: 345px;
+      margin-top: 29px;
+      margin-bottom: 20px;
+  }
+  
+  #en-markup-alert-container .cell-2 .cell-2-title {
+      margin-bottom: 5px;
+      padding-right: 30px;
+      font-size: 12pt;
+      font-family: Tahoma, Arial;
+  }
+  
+  #en-markup-alert-container .cell-2 .cell-2-message {
+      padding-right: 30px;
+      font-size: 9.5pt;
+      font-family: Tahoma, Arial;
+  }
+  
+  #en-markup-alert-container .cell-3 {
+      position: relative;
+      width: 450px;
+      height: 60px;
+      float: left;
+      background-color: rgb(240,240,240);
+  }
+  
+  #en-markup-alert-container .cell-3 button {
+      position: absolute;
+      top: 12px;
+      right: 15px;
+      width: 110px;
+      height: 36px;
+  }
+  
+  #en-markup-alert-container .cell-3 button.alt-button {
+      position: absolute;
+      top: 12px;
+      right: 140px;
+      width: 110px;
+      height: 36px;
+  }
+  </style></head>
+  
+  <body youdao="bind">
+  <div class="content">
+    <h1><strong>DreamTuner: Single Image is Enough
+      for <br>Subject Driven Generation</strong></h1>
+    <p id="authors">
+      <!-- <span><a href="https://natanielruiz.github.io/"></a></span><a href="https://natanielruiz.github.io/">Nataniel Ruiz</a> <a href="http://people.csail.mit.edu/yzli/">Yuanzhen Li</a> <a href="https://varunjampani.github.io/">Varun Jampani</a> <a href="https://research.google/people/106214/">Yael Pritch</a> <a href="http://people.csail.mit.edu/mrub/">Michael Rubinstein</a> <a href="https://kfiraberman.github.io/">Kfir Aberman</a><br> -->
+      <!-- <br> -->
+    <span style="font-size: 24px">Anonymous authors
+    </span></p>
+    <br>
+    <img src="./images/teaser.png" class="teaser-gif" style="width:100%;"><br>
+    <h3 style="text-align:center"><em>Single image is enough for superising subject driven image generation!</em></h3>
+      <font size="+2">
+            <p style="text-align: center;">
+              [Paper Coming Soon]
+            </p>
+      </font>
+  </div>
+  <div class="content">
+    <h2 style="text-align:center;">Abstract</h2>
+    <p>Large diffusion-based models have demonstrated impressive capabilities in text-to-image generation, and are expected to lend themselves well to personalized applications which require the generation of customized concepts with one or a small number of reference images. However, existing fine-tuning based subject-driven image generation methods necessitate a delicate balance between subject learning and the maintenance of the generation capabilities of pretrained models. Furthermore, other methods based on additional image encoders tend to lose important details of the reference image due to compression. To address these issues, we propose DreamTurner, a new refined reference-based fine-tuning and inference method. It is worth noting that the self-attention layers within pretrained text-to-image models naturally perform spatial contextual association functions. We propose a novel subject-attention mechanism which refines the reference. Specifically, the reference features are extracted from the reference image using pretrained text-to-image models which share a common distribution with the generating image features. Subsequently, the reference features are concatenated with the generating image features, where they are used as the key and value for the self-attention layers. In order to solve the issue of the background of the reference image impacting the generated image, we introduce an additional mask strategy. It is worth emphasizing that subject-attention is an elegant, effective, and training-free method of maintaining the detailed features of customized concepts, which can be used as a plug-and-play solution during inference. Furthermore, the performance of DreamTurner in subject-driven image generation, controlled by text or other conditions such as pose, has been markedly improved through the utilization of subject-attention and a number of other fine-tuning techniques.
+    </p>
+  </div>
+  <div class="content">
+    <h2>Approach</h2>
+    <p>Our proposed method uses one or very few images of a subject as input (typically a single image suffices for most subjects). Initially, DreamBooth is utilized to learn a word embedding [S*] that represents the subject. This finetunes the pre-trained text-to-image model, employing a custom dataset of {'a photo of [class word] [S*]'-reference images} and {'a photo of [class word]'-regular images}. For refined regular image generation, we incorporated a novel subject attention mechanism alongside some image captioning based techniques. The subject attention relies on self-attention layers to furnish fine-grained spatial reference during generation. During the inference stage, a model which has undergone fine-tuning is utilized to generate several images of the subject. The subject attention mechanism with mask and weight strategy is then applied to maintain the essential details of the generated images. 
+  </p>
+    <br>
+    <img class="summary-img" src="./images/ID-attention-framework.png" style="width:100%;"> <br>
+    <p>Our proposed method utilizes subject attention, which is based on original self-attention layers within pre-trained text-to-image models (in this case, Stable Diffusion models). The process involves keeping the generating image features at timestep t as the query, while using the concatenation of generating image features and reference image features as the key and value. To extract reference image features, we employ a shared Diffusion U-Net to apply diffusion noise to the reference image. Salient Object Detection (SOD) is then used to create a foreground mask, protecting the generating image from the reference image's background. By adopting the mask as the attention mask in subject attention, we introduce a weight strategy to adjust the scale of the reference image's impact.</p>
+    <br>
+    <img class="summary-img" src="./images/ID-attention.png" style="width:95%;"> <br>
+    <p>The original classifier free guidance method is also modified to:</p><br>
+    <img class="summary-img" src="./images/ref_guidance.png" style="width:95%;"> <br>
+    
+    <div class="formula">
+      where `\mathbf{z}_t` is the generating image at time step `t`, `\mathbf{c}` is the condition, `\mathbf{uc}` is the undesired condition, 
+      `\mathbf{r}_{t-\Delta t}` and `\mathbf{r}_{t+\Delta t'}` are the diffusion noised reference images at time step `t-\Delta t` and `t+\Delta t'`, 
+      `\Delta t` and `\Delta t'` are small time step biases, `\omega_{r}` and `\omega_{c}` are the guidance scales, `\hat{\mathbf{\epsilon}}_t` is the final output. 
+      The first equation emphasizes the guidance of reference image and the second equation emphasizes the guidance of condition, 
+      where `p_{r}` controls the possibility of selecting the first one.<br>
+    </div>
+  </div>
+  <div class="content">
+    <h2>Results of Text-Controlled Anime Characters Driven Image Generation</h2>
+    <p>Our results display the output of text-controlled subject-driven image generation focused on anime characters. DreamBooth fine-tuning was performed using only a single image. Both local editing (such as expression editing in the first line) and global editing (including scene and action editing in the subsequent five lines) were performed, resulting in highly detailed images even with complex text inputs. Notably, the images maintained the details of the reference images accurately.
+    </p>
+  <!-- <img class="summary-img" src="./images/r1.png" style="width:100%;"> -->
+  <!-- <img class="summary-img" src="./images/i0.png" style="width:20%;" src="./images/i0_1.png" style="width:20%;"> <br>
+  <img class="summary-img" src="./images/i0_2.png" style="width:20%;"> <br>
+  <img class="summary-img" src="./images/i0_3.png" style="width:20%;"> <br>
+  <img class="summary-img" src="./images/i0_4.png" style="width:20%;"> <br> -->
+  <!-- <font size="+2">
+    <p style="text-align: center;">
+      source &nbsp;&nbsp;&nbsp;&nbsp; Sitting on the sofa &nbsp;&nbsp;&nbsp;&nbsp; Sleep in bed, closed eyes
+    </p>
+  </font> -->
+  <!-- <img src="./images/i0.png" alt="./images/i0.png" height="auto" width="200" padding:="" 50px="" 10px="" style="border:100px "><img src="./images/i0_1.png" alt="./images/i0_1.png" height="auto" width="200" padding:="" 50px="" 10px="" style="border:100px "><img src="./images/i0_2.png" alt="./images/i0_2.png" height="auto" width="200" padding:="" 50px="" 10px="" style="border:100px "><img src="./images/i0_3.png" alt="./images/i0_3.png" height="auto" width="200" padding:="" 50px="" 10px="" style="border:100px "><img src="./images/i0_4.png" alt="./images/i0_4.png" height="auto" width="200" padding:="" 50px="" 10px="" style="border:100px "><br> -->
+  <div id="banner" style="overflow: hidden;justify-content:space-around;">
+    <div class="" style="border:100px;display: inline-block;">
+      <h5><center>Input Image</center></h5> <img src="./images/i5_0.png" height="auto" width="192" padding:=""> 
+    </div>
+    <div class="" style="border:100px;display: inline-block;">
+      <h5><center>Open mouth</center></h5>  <img src="./images/i5_1.png" height="auto" width="192" padding:=""> 
+    </div>
+    <div class="" style="border:100px;display: inline-block;">
+      <h5><center>Crying</center></h5>  <img src="./images/i5_2.png" height="auto" width="192" padding:=""> 
+    </div>
+    <div class="" style="border:100px;display: inline-block;">
+      <h5><center>Laughing</center></h5> <img src="./images/i5_3.png" height="auto" width="192" padding:="">
+    </div>
+    <div class="" style="border:100px;display: inline-block;">
+      <h5><center>Angry</center></h5> <img src="./images/i5_4.png" height="auto" width="192" padding:="">
+    </div>
+    </div>
+    <div id="banner" style="overflow: hidden;justify-content:space-around;">
+      <div class="" style="border:100px;display: inline-block;">
+        <h5><center>Input Image</center></h5>   <img src="./images/i4.png" height="auto" width="192" padding:=""> 
+      </div>
+    
+      <div class="" style="border:100px;display: inline-block;">
+        <h5><center>Sitting on the sofa</center></h5>   <img src="./images/i4_1.png" height="auto" width="192" padding:=""> 
+      </div>
+    
+      <div class="" style="border:100px;display: inline-block;">
+        <h5><center>Sleep in bed, <br>closed eyes</center></h5>   <img src="./images/i4_2.png" height="auto" width="192" padding:=""> 
+      </div>
+      
+      <div class="" style="border:100px;display: inline-block;">
+        <h5><center>Sitting on the park bench</center></h5> <img src="./images/i4_4.png" height="auto" width="192" padding:="">
+      </div>
+  
+      <div class="" style="border:100px;display: inline-block;">
+        <h5><center>Sitting at the table with <br>a cup of tea in hands, <br>sunlight streaming <br>through the window</center></h5>  <img src="./images/i4_3.png" height="auto" width="192" padding:="">
+      </div>
+      </div>
+  <div id="banner" style="overflow: hidden;justify-content:space-around;">
+    <div class="" style="border:100px;display: inline-block;">
+      <img src="./images/i0.png" height="auto" width="192" padding:=""> <p>
+    </div>
+  
+    <div class="" style="border:100px;display: inline-block;">
+      <img src="./images/i0_1.png" height="auto" width="192" padding:=""> <p>
+    </div>
+  
+    <div class="" style="border:100px;display: inline-block;">
+      <img src="./images/i0_2.png" height="auto" width="192" padding:=""> <p>
+    </div>
+  
+    <div class="" style="border:100px;display: inline-block;">
+      <img src="./images/i0_4.png" height="auto" width="192" padding:=""> <p>
+    </div>
+  
+    <div class="" style="border:100px;display: inline-block;">
+      <img src="./images/i0_3.png" height="auto" width="192" padding:=""> <p>
+    </div>
+    </div>
+  
+    <div id="banner" style="overflow: hidden;justify-content:space-around;">
+      <div class="" style="border:100px;display: inline-block;">
+          <img src="./images/i1.png" height="auto" width="192" padding:=""> <p>
+      </div>
+    
+      <div class="" style="border:100px;display: inline-block;">
+          <img src="./images/i1_1.png" height="auto" width="192" padding:=""> <p>
+      </div>
+    
+      <div class="" style="border:100px;display: inline-block;">
+          <img src="./images/i1_2.png" height="auto" width="192" padding:=""> <p>
+      </div>
+    
+      <div class="" style="border:100px;display: inline-block;">
+        <img src="./images/i1_4.png" height="auto" width="192" padding:=""> <p>
+      </div>
+      <div class="" style="border:100px;display: inline-block;">
+        <img src="./images/i1_3.png" height="auto" width="192" padding:=""> <p>
+      </div>
+      </div>
+  
+      <div id="banner" style="overflow: hidden;justify-content:space-around;">
+        <div class="" style="border:100px;display: inline-block;">
+            <img src="./images/i2.png" height="auto" width="192" padding:=""> <p>
+        </div>
+      
+        <div class="" style="border:100px;display: inline-block;">
+            <img src="./images/i2_1.png" height="auto" width="192" padding:=""> <p>
+        </div>
+      
+        <div class="" style="border:100px;display: inline-block;">
+            <img src="./images/i2_2.png" height="auto" width="192" padding:=""> <p>
+        </div>
+        
+        <div class="" style="border:100px;display: inline-block;">
+          <img src="./images/i2_4.png" height="auto" width="192" padding:=""> <p>
+        </div>
+  
+        <div class="" style="border:100px;display: inline-block;">
+          <img src="./images/i2_3.png" height="auto" width="192" padding:=""> <p>
+        </div>
+        </div>
+  
+        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+          <div class="" style="border:100px;display: inline-block;">
+              <img src="./images/i3.png" height="auto" width="192" padding:=""> <p>
+          </div>
+        
+          <div class="" style="border:100px;display: inline-block;">
+              <img src="./images/i3_1.png" height="auto" width="192" padding:=""> <p>
+          </div>
+        
+          <div class="" style="border:100px;display: inline-block;">
+              <img src="./images/i3_2.png" height="auto" width="192" padding:=""> <p>
+          </div>
+        
+          <div class="" style="border:100px;display: inline-block;">
+            <img src="./images/i3_4.png" height="auto" width="192" padding:=""> <p>
+          </div>
+  
+          <div class="" style="border:100px;display: inline-block;">
+            <img src="./images/i3_3.png" height="auto" width="192" padding:=""> <p>
+          </div>
+          
+          </div>
+  
+  
+    
+  <!-- <div class="img-with-text">
+    <img src="./images/i0.png" alt="sometext" />
+    <p>Source</p>
+  </div> -->
+  
+  
+  </div>
+  <div class="content">
+    <h2>Results of Text-Controlled Natural Images Driven Image Generation</h2>
+    <p>Our method is evaluated on the DreamBooth dataset, where one image of each subject is utilized as the reference image. 
+      Through the use of subject attention, a refined reference is generated, 
+      which enables DreamTuner to successfully produce high-fidelity images that are consistent with the textual input, 
+      while also retaining crucial subject details, including but not limited to, white stripes on puppy's head, logos on bag, patterns and texts on can.</p>
+    <br>
+  
+      <div id="banner" style="overflow: hidden;justify-content:space-around;">
+        <div class="" style="border:100px;display: inline-block;">
+          <h5><center>Input Images</center></h5>  <img src="./images/n1.jpeg" height="auto" width="240" padding:=""> 
+        </div>
+        <div class="" style="border:100px;display: inline-block;">
+          <h5><center>A dog [S*] in the jungle</center></h5>  <img src="./images/n1_1.png" height="auto" width="240" padding:=""> 
+        </div>
+        <div class="" style="border:100px;display: inline-block;">
+          <h5><center>A dog [S*] on top of a wooden floor</center></h5>  <img src="./images/n1_2.png" height="auto" width="240" padding:=""> 
+        </div>
+        <div class="" style="border:100px;display: inline-block;">
+          <h5><center>A dog [S*] with a <br>mountain in the background</center></h5> <img src="./images/n1_3.png" height="auto" width="240" padding:="">
+        </div>
+        </div>
+        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>Input Images</center></h5>   <img src="./images/n5.jpg" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A dog [S*] running on the grass <br>with autumn leaves</center></h5>  <img src="./images/n5_1.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A dog [S*] with a mountain in the <br>background, red hat and sunglasses</center></h5>  <img src="./images/n5_2.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A dog [S*] sitting on a <br>cobblestone street</center></h5> <img src="./images/n5_3.png" height="auto" width="240" padding:="">
+          </div>
+          </div>
+        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>Input Images</center></h5>   <img src="./images/n4.jpg" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A dog [S*] swimming in the pool</center></h5> <img src="./images/n4_3.png" height="auto" width="240" padding:="">
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A dog [S*] jumping into the air <br>and bitting a Frisbee</center></h5>  <img src="./images/n4_1.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A dog [S*] sleeping in a cardboard box</center></h5>  <img src="./images/n4_2.png" height="auto" width="240" padding:=""> 
+          </div>
+          </div>
+        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>Input Images</center></h5> <img src="./images/n6.jpg" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A vase [S*] with a wheat field <br>in the background</center></h5>  <img src="./images/n6_1.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A vase [S*] in the snow</center></h5>  <img src="./images/n6_2.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A vase [S*] floating on top of water</center></h5> <img src="./images/n6_3.png" height="auto" width="240" padding:="">
+          </div>
+          </div>
+        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>Input Images</center></h5> <img src="./images/n0.jpeg" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A backpack [S*] in the snow</center></h5>  <img src="./images/n0_1.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A backpack [S*] on the beach</center></h5>  <img src="./images/n0_2.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A backpack [S*] with a <br>mountain in the background</center></h5> <img src="./images/n0_3.png" height="auto" width="240" padding:="">
+          </div>
+          </div>
+        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>Input Images</center></h5>   <img src="./images/n2.jpeg" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A sneaker [S*] in the jungle</center></h5>   <img src="./images/n2_1.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A sneaker [S*] on the beach</center></h5>   <img src="./images/n2_2.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A sneaker [S*] with a <br>city in the background</center></h5>  <img src="./images/n2_3.png" height="auto" width="240" padding:="">
+          </div>
+          </div>
+  
+        <div id="banner" style="overflow: hidden;justify-content:space-around;">
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>Input Images</center></h5>   <img src="./images/n3.jpeg" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A can [S*] on the beach</center></h5>  <img src="./images/n3_1.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A can [S*] in the snow</center></h5>  <img src="./images/n3_2.png" height="auto" width="240" padding:=""> 
+          </div>
+          <div class="" style="border:100px;display: inline-block;">
+            <h5><center>A can [S*] with a <br>mountain in the background</center></h5> <img src="./images/n3_3.png" height="auto" width="240" padding:="">
+          </div>
+          </div>
+        
+        
+        
+  </div>
+  <div class="content">
+    <h2>Results of Pose-Controlled Character Driven Image Generation</h2>
+    <p>Our method can be combined with ControlNet to expand its applicability to various conditions such as pose. In the following example, only one image is used for DreamBooth fine-tuning, with the pose of the reference image utilized as a reference condition. To ensure inter-frame coherence, both the reference image and the previous frame of the generating image are used for subject attention, with reference weights of 10 and 1, respectively.</p>
+    <br>
+  <video src="images/pose_girl0_h264.mp4" controls width="1000" height="333"></video>
+  
+  </div>
+  </div> 
+  
+  
+  <div id="__FEISHU_CLIPPER__"></div></body></html>
