@@ -206,7 +206,8 @@
   </div>
   <div class="content">
     <h2>Approach</h2>
-    <p>Our proposed method uses one or very few images of a subject as input (typically a single image suffices for most subjects). Initially, DreamBooth is utilized to learn a word embedding [S*] that represents the subject. This finetunes the pre-trained text-to-image model, employing a custom dataset of {'a photo of [class word] [S*]'-reference images} and {'a photo of [class word]'-regular images}. For refined regular image generation, we incorporated a novel subject attention mechanism alongside some image captioning based techniques. The subject attention relies on self-attention layers to furnish fine-grained spatial reference during generation. During the inference stage, a model which has undergone fine-tuning is utilized to generate several images of the subject. The subject attention mechanism with mask and weight strategy is then applied to maintain the essential details of the generated images. 
+    <p>Our proposed method uses one or very few images of a subject as input (typically a single image suffices for most subjects). Initially, DreamBooth is utilized to learn a word embedding [S*] that represents the subject. 
+      This finetunes the pre-trained text-to-image model, employing a custom dataset of {'a photo of [class word] [S*]'-reference images} and {'a photo of [class word]'-regular images}. For refined regular image generation, we incorporated a novel subject attention mechanism alongside some image captioning based techniques. The subject attention relies on self-attention layers to furnish fine-grained spatial reference during generation. During the inference stage, a model which has undergone fine-tuning is utilized to generate several images of the subject. The subject attention mechanism with mask and weight strategy is then applied to maintain the essential details of the generated images. 
   </p>
     <br>
     <img class="summary-img" src="./images/ID-attention-framework.png" style="width:100%;"> <br>
@@ -226,7 +227,9 @@
   </div>
   <div class="content">
     <h2>Results of Text-Controlled Anime Characters Driven Image Generation</h2>
-    <p>Our results display the output of text-controlled subject-driven image generation focused on anime characters. DreamBooth fine-tuning was performed using only a single image. Both local editing (such as expression editing in the first line) and global editing (including scene and action editing in the subsequent five lines) were performed, resulting in highly detailed images even with complex text inputs. Notably, the images maintained the details of the reference images accurately.
+    <p>Our results display the output of text-controlled subject-driven image generation focused on anime characters. 
+      DreamTuner fine-tuning was performed using only a single image. 
+      Both local editing (such as expression editing in the first line) and global editing (including scene and action editing in the subsequent five lines) were performed, resulting in highly detailed images even with complex text inputs. Notably, the images maintained the details of the reference images accurately.
     </p>
   <!-- <img class="summary-img" src="./images/r1.png" style="width:100%;"> -->
   <!-- <img class="summary-img" src="./images/i0.png" style="width:20%;" src="./images/i0_1.png" style="width:20%;"> <br>
@@ -384,7 +387,7 @@
   
       <div id="banner" style="overflow: hidden;justify-content:space-around;">
         <div class="" style="border:100px;display: inline-block;">
-          <h5><center>Input Images</center></h5>  <img src="./images/n1.jpeg" height="auto" width="240" padding:=""> 
+          <h5><center>Input Image</center></h5>  <img src="./images/n1.jpeg" height="auto" width="240" padding:=""> 
         </div>
         <div class="" style="border:100px;display: inline-block;">
           <h5><center>A dog [S*] in the jungle</center></h5>  <img src="./images/n1_1.png" height="auto" width="240" padding:=""> 
@@ -398,7 +401,7 @@
         </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Images</center></h5>   <img src="./images/n5.jpg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Image</center></h5>   <img src="./images/n5.jpg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A dog [S*] running on the grass <br>with autumn leaves</center></h5>  <img src="./images/n5_1.png" height="auto" width="240" padding:=""> 
@@ -412,7 +415,7 @@
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Images</center></h5>   <img src="./images/n4.jpg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Image</center></h5>   <img src="./images/n4.jpg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A dog [S*] swimming in the pool</center></h5> <img src="./images/n4_3.png" height="auto" width="240" padding:="">
@@ -426,7 +429,7 @@
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Images</center></h5> <img src="./images/n6.jpg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Image</center></h5> <img src="./images/n6.jpg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A vase [S*] with a wheat field <br>in the background</center></h5>  <img src="./images/n6_1.png" height="auto" width="240" padding:=""> 
@@ -440,7 +443,7 @@
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Images</center></h5> <img src="./images/n0.jpeg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Image</center></h5> <img src="./images/n0.jpeg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A backpack [S*] in the snow</center></h5>  <img src="./images/n0_1.png" height="auto" width="240" padding:=""> 
@@ -454,7 +457,7 @@
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Images</center></h5>   <img src="./images/n2.jpeg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Image</center></h5>   <img src="./images/n2.jpeg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A sneaker [S*] in the jungle</center></h5>   <img src="./images/n2_1.png" height="auto" width="240" padding:=""> 
@@ -469,7 +472,7 @@
   
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Images</center></h5>   <img src="./images/n3.jpeg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Image</center></h5>   <img src="./images/n3.jpeg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A can [S*] on the beach</center></h5>  <img src="./images/n3_1.png" height="auto" width="240" padding:=""> 
@@ -487,7 +490,7 @@
   </div>
   <div class="content">
     <h2>Results of Pose-Controlled Character Driven Image Generation</h2>
-    <p>Our method can be combined with ControlNet to expand its applicability to various conditions such as pose. In the following example, only one image is used for DreamBooth fine-tuning, with the pose of the reference image utilized as a reference condition. To ensure inter-frame coherence, both the reference image and the previous frame of the generating image are used for subject attention, with reference weights of 10 and 1, respectively.</p>
+    <p>Our method can be combined with ControlNet to expand its applicability to various conditions such as pose. In the following example, only one image is used for DreamTuner fine-tuning, with the pose of the reference image utilized as a reference condition. To ensure inter-frame coherence, both the reference image and the previous frame of the generating image are used for subject attention, with reference weights of 10 and 1, respectively.</p>
     <br>
   <video src="images/pose_girl0_h264.mp4" controls width="1000" height="333"></video>
   
