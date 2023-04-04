@@ -3,9 +3,9 @@
 
   <title>DreamTuner</title>
   <link href="./images/style.css" rel="stylesheet">
-  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
-  <script type="text/javascript" src="./images/jquery.mlens-1.0.min.js"></script> 
-  <script type="text/javascript" src="./images/jquery.js"></script>
+  <script type="text/javascript" charset="utf-8" 
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,
+https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
   <style type="text/css">/* Copyright 2014-present Evernote Corporation. All rights reserved. */
   @keyframes caretBlink {
       from { opacity: 1.0; }
@@ -218,11 +218,11 @@
     <img class="summary-img" src="./images/ref_guidance.png" style="width:95%;"> <br>
     
     <div class="formula">
-      where `\mathbf{z}_t` is the generating image at time step `t`, `\mathbf{c}` is the condition, `\mathbf{uc}` is the undesired condition, 
-      `\mathbf{r}_{t-\Delta t}` and `\mathbf{r}_{t+\Delta t'}` are the diffusion noised reference images at time step `t-\Delta t` and `t+\Delta t'`, 
-      `\Delta t` and `\Delta t'` are small time step biases, `\omega_{r}` and `\omega_{c}` are the guidance scales, `\hat{\mathbf{\epsilon}}_t` is the final output. 
+      where $\mathbf{z}_t$ is the generating image at time step $t$, $\mathbf{c}$ is the condition, $\mathbf{uc}$ is the undesired condition, 
+      $\mathbf{r}_{t-\Delta t}$ and $\mathbf{r}_{t+\Delta t'}$ are the diffusion noised reference images at time step $t-\Delta t$ and $t+\Delta t'$, 
+      $\Delta t$ and $\Delta t'$ are small time step biases, $\omega_{r}$ and $\omega_{c}$ are the guidance scales, $\hat{\mathbf{\epsilon}}_t$ is the final output. 
       The first equation emphasizes the guidance of reference image and the second equation emphasizes the guidance of condition, 
-      where `p_{r}` controls the possibility of selecting the first one.<br>
+      where $p_{r}$ controls the possibility of selecting the first one.<br>
     </div>
   </div>
   <div class="content">
