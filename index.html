@@ -195,30 +195,74 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
     <h3 style="text-align:center"><em>Single image is enough for superising subject driven image generation!</em></h3>
       <font size="+2">
             <p style="text-align: center;">
-              [Paper Coming Soon]
+              [Paper Coming Soon], [Code Coming Soon]
             </p>
       </font>
   </div>
   <div class="content">
     <h2 style="text-align:center;">Abstract</h2>
-    <p>Large diffusion-based models have demonstrated impressive capabilities in text-to-image generation, and are expected to lend themselves well to personalized applications which require the generation of customized concepts with one or a small number of reference images. However, existing fine-tuning based subject-driven image generation methods necessitate a delicate balance between subject learning and the maintenance of the generation capabilities of pretrained models. Furthermore, other methods based on additional image encoders tend to lose important details of the reference image due to compression. To address these issues, we propose DreamTurner, a new refined reference-based fine-tuning and inference method. It is worth noting that the self-attention layers within pretrained text-to-image models naturally perform spatial contextual association functions. We propose a novel subject-attention mechanism which refines the reference. Specifically, the reference features are extracted from the reference image using pretrained text-to-image models which share a common distribution with the generating image features. Subsequently, the reference features are concatenated with the generating image features, where they are used as the key and value for the self-attention layers. In order to solve the issue of the background of the reference image impacting the generated image, we introduce an additional mask strategy. It is worth emphasizing that subject-attention is an elegant, effective, and training-free method of maintaining the detailed features of customized concepts, which can be used as a plug-and-play solution during inference. Furthermore, the performance of DreamTurner in subject-driven image generation, controlled by text or other conditions such as pose, has been markedly improved through the utilization of subject-attention and a number of other fine-tuning techniques.
+    <p>Large diffusion-based models have demonstrated impressive capabilities in text-to-image generation, and are expected for personalized applications which require the generation of customized concepts with one or a few reference images, i.e., subject-driven generation.
+  However, existing methods based on fine-tuning necessitate a trade-off between subject learning and the maintenance of the generation capabilities of pretrained models. 
+  Furthermore, other methods based on additional image encoders tend to lose some important details of the subject due to encoding compression. 
+  To address these issues, we propose DreamTurner, a novel method that injects the reference information of the customized subject from coarse to fine. 
+  A subject encoder is first proposed for coarse subject identity preservation, where the compressed general subject features are introduced through an additional attention layer before visual-text cross-attention. 
+  Then, noting that the self-attention layers within pretrained text-to-image models naturally perform detailed spatial contextual association functions,  
+  we modified them to self-subject-attention layers to refine the details of the target subject,
+  where the generated image queries detailed features from both reference image and itself.
+  It is worth emphasizing that self-subject-attention is an elegant, effective, and training-free method for maintaining the detailed features of customized concepts, which can be used as a plug-and-play solution during inference. 
+  Finally, with additional fine-tuning on only a single image, DreamTurner achieves remarkable performance in subject-driven image generation, controlled by text or other conditions such as pose.
     </p>
   </div>
   <div class="content">
     <h2>Approach</h2>
-    <p>Our proposed method uses one or very few images of a subject as input (typically a single image suffices for most subjects). Initially, DreamBooth is utilized to learn a word embedding [S*] that represents the subject. 
-      This finetunes the pre-trained text-to-image model, employing a custom dataset of {'a photo of [class word] [S*]'-reference images} and {'a photo of [class word]'-regular images}. For refined regular image generation, we incorporated a novel subject attention mechanism alongside some image captioning based techniques. The subject attention relies on self-attention layers to furnish fine-grained spatial reference during generation. During the inference stage, a model which has undergone fine-tuning is utilized to generate several images of the subject. The subject attention mechanism with mask and weight strategy is then applied to maintain the essential details of the generated images. 
+    <p>we propose DreamTuner as a novel framework for subject driven image generation based on both fine-tuning and image encoder, which maintains the subject identity from coarse to fine. 
+      DreamTuner consists of three stages: subject encoder pre-training, subject-driven fine-tuning and subject-driven inference.
+      Firstly, a subject encoder is trained for coarse identity preservation.
+      Subject encoder is a kind of image encoder that provides compressed image features to the generation model.
+      A frozen ControlNet is utilized for decoupling of content and layout.
+      Then we fine-tune the whole model on the reference image and some generated regular images as in DreamBooth. 
+      Note that subject encoder and self-subject-attention are used for regular images generation to refine the regular data.
+      At the inference stage, the subject encoder, self-subject-attention, and subject word [S*] obtained through fine-tuning, are used for subject identity preservation from coarse to fine.
+      Pre-trained ControlNet could also used for layout controlled generation. 
   </p>
     <br>
-    <img class="summary-img" src="./images/ID-attention-framework.png" style="width:100%;"> <br>
-    <p>Our proposed method utilizes subject attention, which is based on original self-attention layers within pre-trained text-to-image models (in this case, Stable Diffusion models). The process involves keeping the generating image features at timestep t as the query, while using the concatenation of generating image features and reference image features as the key and value. To extract reference image features, we employ a shared Diffusion U-Net to apply diffusion noise to the reference image. Salient Object Detection (SOD) is then used to create a foreground mask, protecting the generating image from the reference image's background. By adopting the mask as the attention mask in subject attention, we introduce a weight strategy to adjust the scale of the reference image's impact.</p>
+    <img class="summary-img" src="./images/dreamtuner-framework.png" style="width:100%;"> <br>
+    <div class="formula">
+      we propose subject-encoder as a kind of image encoder that provides a coarse reference for subject driven generation.
+      A frozen CLIP image encoder is used to extract the compressed features of reference image. 
+      Salient Object Detection (SOD) model or segmentation model are used to remove the background of the input image and emphasize the subject.
+      Then some residual blocks (ResBlock) are introduced for domain shift. 
+      Multi-layer features extracted by CLIP are concatenated in the channel dimension and then adjust to the same dimension as the generated features through the residual blocks. 
+      The encoded reference features of subject-encoder are injected to the text-to-image model using additional subject-encoder-attention (S-E-A) layers. 
+      The subject-encoder-attention layers are added before the visual-text cross-attention, because the cross-attention layers are the modules that control the general appearance of generated images.
+      We build the subject-encoder attention according to the same settings as cross-attention and zero initial the output layers.
+      An additional coefficient $\beta$ is introduced to adjust the influence of subject encoder.
+      Besides, we found that the subject-encoder will provide both the content and the layout of the reference image for text-to-image generation.
+      However, in most cases, layout is not required in subject driven generation.
+      Thus we further introduce ControlNet to help decouple the content and layout.
+      Specifically, we train the subject-encoder along with a frozen depth ControlNet.
+      As the ControlNet has provided the layout of reference image, the subject encoder can focus more on the subject content.
+    </div>
+    <img class="summary-img" src="./images/SubjectEncoder.png" style="width:45%;"> <br>
+    <div class="formula">
+      Since the subject-encoder has provided general appearance of the specific subject for the generation process, we further propose self-subject-attention based on the original self-attention layers for fine subject identity preservation.
+      The features of reference image extracted by the pre-trained text-to-image U-Net model are injected to the self-attention layers.
+      The reference features can provide refined and detailed reference because they share the same resolution with the features of the generated image.
+      Specifically, the reference image are noised through diffusion forward process at each time step $t$.
+      Then the reference features before each self-attention layer are extracted from the noised reference image, which share the same data distribution with the generated image features at time step $t$.
+      The original self-attention layers are modified to self-subject-attention layers by utilizing reference features.
+      The features of generated image are taken as the query and the concatenation of generated image features and reference image features is taken as the key and value.
+      To eliminate the influence of background of the reference image, Salient Object Detection (SOD) model is used to create a foreground mask, which uses 0 and 1 to indicate the background and foreground.
+      Besides, the mask can also be used to adjust the scale of the impact of reference image through a weight strategy, i.e., multiply the mask by an adjustment coefficient $\omega_{ref}$.
+      The mask works as an attention bias, thus a log function is used as a preprocessing.
+    </div>
     <br>
-    <img class="summary-img" src="./images/ID-attention.png" style="width:95%;"> <br>
+    <img class="summary-img" src="./images/subject_attention.png" style="width:95%;"> <br>
     <p>The original classifier free guidance method is also modified to:</p><br>
     <img class="summary-img" src="./images/ref_guidance.png" style="width:95%;"> <br>
     
     <div class="formula">
-      where $\mathbf{z}_t$ is the generating image at time step $t$, $\mathbf{c}$ is the condition, $\mathbf{uc}$ is the undesired condition, 
+      where $\mathbf{z}_t$ is the generated image at time step $t$, $\mathbf{c}$ is the condition, $\mathbf{uc}$ is the undesired condition, 
       $\mathbf{r}_{t-\Delta t}$ and $\mathbf{r}_{t+\Delta t'}$ are the diffusion noised reference images at time step $t-\Delta t$ and $t+\Delta t'$, 
       $\Delta t$ and $\Delta t'$ are small time step biases, $\omega_{r}$ and $\omega_{c}$ are the guidance scales, $\hat{\mathbf{\epsilon}}_t$ is the final output. 
       The first equation emphasizes the guidance of reference image and the second equation emphasizes the guidance of condition, 
@@ -228,7 +272,6 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
   <div class="content">
     <h2>Results of Text-Controlled Anime Characters Driven Image Generation</h2>
     <p>Our results display the output of text-controlled subject-driven image generation focused on anime characters. 
-      DreamTuner fine-tuning was performed using only a single image. 
       Both local editing (such as expression editing in the first line) and global editing (including scene and action editing in the subsequent five lines) were performed, resulting in highly detailed images even with complex text inputs. Notably, the images maintained the details of the reference images accurately.
     </p>
   <!-- <img class="summary-img" src="./images/r1.png" style="width:100%;"> -->
@@ -380,14 +423,14 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
   <div class="content">
     <h2>Results of Text-Controlled Natural Images Driven Image Generation</h2>
     <p>Our method is evaluated on the DreamBooth dataset, where one image of each subject is utilized as the reference image. 
-      Through the use of subject attention, a refined reference is generated, 
+      Through the use of subject-encoder and self-subject-attention, a refined reference is generated, 
       which enables DreamTuner to successfully produce high-fidelity images that are consistent with the textual input, 
       while also retaining crucial subject details, including but not limited to, white stripes on puppy's head, logos on bag, patterns and texts on can.</p>
     <br>
   
       <div id="banner" style="overflow: hidden;justify-content:space-around;">
         <div class="" style="border:100px;display: inline-block;">
-          <h5><center>Input Image</center></h5>  <img src="./images/n1.jpeg" height="auto" width="240" padding:=""> 
+          <h5><center>Input Images</center></h5>  <img src="./images/n1.jpg" height="auto" width="240" padding:=""> 
         </div>
         <div class="" style="border:100px;display: inline-block;">
           <h5><center>A dog [S*] in the jungle</center></h5>  <img src="./images/n1_1.png" height="auto" width="240" padding:=""> 
@@ -401,7 +444,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
         </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Image</center></h5>   <img src="./images/n5.jpg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Images</center></h5>   <img src="./images/n5.jpg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A dog [S*] running on the grass <br>with autumn leaves</center></h5>  <img src="./images/n5_1.png" height="auto" width="240" padding:=""> 
@@ -415,13 +458,13 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Image</center></h5>   <img src="./images/n4.jpg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Images</center></h5>   <img src="./images/n4.jpg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A dog [S*] swimming in the pool</center></h5> <img src="./images/n4_3.png" height="auto" width="240" padding:="">
           </div>
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>A dog [S*] jumping into the air <br>and bitting a Frisbee</center></h5>  <img src="./images/n4_1.png" height="auto" width="240" padding:=""> 
+            <h5><center>A dog [S*] jumping into the air <br>and biting a frisbee</center></h5>  <img src="./images/n4_1.png" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A dog [S*] sleeping in a cardboard box</center></h5>  <img src="./images/n4_2.png" height="auto" width="240" padding:=""> 
@@ -429,7 +472,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Image</center></h5> <img src="./images/n6.jpg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Images</center></h5> <img src="./images/n6.jpg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A vase [S*] with a wheat field <br>in the background</center></h5>  <img src="./images/n6_1.png" height="auto" width="240" padding:=""> 
@@ -443,7 +486,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Image</center></h5> <img src="./images/n0.jpeg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Images</center></h5> <img src="./images/n0.jpeg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A backpack [S*] in the snow</center></h5>  <img src="./images/n0_1.png" height="auto" width="240" padding:=""> 
@@ -457,7 +500,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
           </div>
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Image</center></h5>   <img src="./images/n2.jpeg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Images</center></h5>   <img src="./images/n2.jpeg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A sneaker [S*] in the jungle</center></h5>   <img src="./images/n2_1.png" height="auto" width="240" padding:=""> 
@@ -472,7 +515,7 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
   
         <div id="banner" style="overflow: hidden;justify-content:space-around;">
           <div class="" style="border:100px;display: inline-block;">
-            <h5><center>Input Image</center></h5>   <img src="./images/n3.jpeg" height="auto" width="240" padding:=""> 
+            <h5><center>Input Images</center></h5>   <img src="./images/n3.jpeg" height="auto" width="240" padding:=""> 
           </div>
           <div class="" style="border:100px;display: inline-block;">
             <h5><center>A can [S*] on the beach</center></h5>  <img src="./images/n3_1.png" height="auto" width="240" padding:=""> 
@@ -490,7 +533,9 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
   </div>
   <div class="content">
     <h2>Results of Pose-Controlled Character Driven Image Generation</h2>
-    <p>Our method can be combined with ControlNet to expand its applicability to various conditions such as pose. In the following example, only one image is used for DreamTuner fine-tuning, with the pose of the reference image utilized as a reference condition. To ensure inter-frame coherence, both the reference image and the previous frame of the generating image are used for subject attention, with reference weights of 10 and 1, respectively.</p>
+    <p>Our method can be combined with ControlNet to expand its applicability to various conditions such as pose. 
+      In the following example, only one image is used for DreamTuner fine-tuning, with the pose of the reference image utilized as a reference condition. 
+      To ensure inter-frame coherence, both the reference image and the previous frame of the generated image are used for self-subject-attention, with reference weights of 10 and 1, respectively.</p>
     <br>
   <video src="images/pose_girl0_h264.mp4" controls width="1000" height="333"></video>
   
