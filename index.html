@@ -268,6 +268,51 @@ https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
       The first equation emphasizes the guidance of reference image and the second equation emphasizes the guidance of condition, 
       where $p_{r}$ controls the possibility of selecting the first one.<br>
     </div>
+    <h3>Visualizations of the self-subject-attention maps</h3>
+    <p>We visualize the attention maps of self-subject-attention at the last time step (50) of generation process, with text 
+      <em>"1girl [S*], Sitting at the table with a cup of tea in hands, sunlight streaming through the window"</em>. 
+      We choose the attention maps at the Encoder layers 7, 8 and the Decoder layers 4, 5 of Diffusion U-Net model, 
+      i.e., the layers with the feature resolution of 16*16 when the resolution of generated image is 512*512. 
+      The generated image is shown in the left and the reference image is shown in the right.
+      The attention map appears red in areas with strong influence and blue in areas with weak influence.
+      The red box represents the query.
+      Some of the key attention maps at Decoder layer 5 are shown below. 
+      It can be found that the generated image will query from the reference image for refined subject information.
+    </p>
+    <div id="banner" style="overflow: hidden;justify-content:space-around;">
+      <div class="" style="border:100px;display: inline-block;">
+        <img src="./images/face_dec5.jpg" height="245" width="490" padding:=""> <p>
+      </div>
+      <div class="" style="border:100px;display: inline-block;">
+        <img src="./images/hair_dec5.jpg" height="245" width="490" padding:=""> <p>
+      </div>
+      </div>
+      <div id="banner" style="overflow: hidden;justify-content:space-around;">
+        <div class="" style="border:100px;display: inline-block;">
+          <img src="./images/tie_dec5.jpg" height="245" width="490" padding:=""> <p>
+        </div>
+        <div class="" style="border:100px;display: inline-block;">
+          <img src="./images/skirt_dec5.jpg" height="245" width="490" padding:=""> <p>
+        </div>
+        </div>
+    <p> All of the attention maps are visualized as videos:
+    </p>
+    <div id="banner" style="overflow: hidden;justify-content:space-around;">
+      <div class="" style="border:100px;display: inline-block;">
+        <h5><center>Self-subject-attention maps of U-Net Encoder layer 7.</center></h5> <video src="images/attn_maps_enc7.mp4" controls width="490" height="245"></video> 
+      </div>
+      <div class="" style="border:100px;display: inline-block;">
+        <h5><center>Self-subject-attention maps of U-Net Encoder layer 8.</center></h5>  <video src="images/attn_maps_enc8.mp4" controls width="490" height="245"></video> 
+      </div>
+      </div>
+      <div id="banner" style="overflow: hidden;justify-content:space-around;">
+        <div class="" style="border:100px;display: inline-block;">
+          <h5><center>Self-subject-attention maps of U-Net Decoder layer 4.</center></h5> <video src="images/attn_maps_dec4.mp4" controls width="490" height="245"></video> 
+        </div>
+        <div class="" style="border:100px;display: inline-block;">
+          <h5><center>Self-subject-attention maps of U-Net Decoder layer 5.</center></h5>  <video src="images/attn_maps_dec5.mp4" controls width="490" height="245"></video> 
+        </div>
+        </div>
   </div>
   <div class="content">
     <h2>Results of Text-Controlled Anime Characters Driven Image Generation</h2>
